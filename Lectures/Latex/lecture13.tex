@@ -1,0 +1,171 @@
+\documentclass[aspectratio=169]{beamer}
+\mode<presentation>
+%\usetheme{Warsaw}
+%\usetheme{Goettingen}
+\usetheme{Hannover}
+%\useoutertheme{default}
+
+%\useoutertheme{infolines}
+\useoutertheme{sidebar}
+\usecolortheme{dolphin}
+
+\setbeamersize{sidebar width left=0pt} % to remove the sidebar
+\beamertemplatenavigationsymbolsempty % To remove the navigation symbols on the bottom right.
+\setbeamersize{text margin left=10mm,text margin right=10mm} % Specify margins
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{enumerate}
+\usepackage{listings}
+
+%some bold math symbosl
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\brho}{\boldsymbol{\rho}}
+\newcommand{\bSigma}{\boldsymbol{\Sigma}}
+\newcommand{\btheta}{\boldsymbol{\theta}}
+\newcommand{\bbeta}{\boldsymbol{\beta}}
+\newcommand{\bmu}{\boldsymbol{\mu}}
+\newcommand{\bW}{\mathbf{W}}
+\newcommand{\one}{\mathbf{1}}
+\newcommand{\bH}{\mathbf{H}}
+\newcommand{\by}{\mathbf{y}}
+\newcommand{\bolde}{\mathbf{e}}
+\newcommand{\bx}{\mathbf{x}}
+
+\newcommand{\cpp}[1]{\texttt{#1}}
+
+%--------------------------------------------------
+\providecommand{\abs}[1]{\lvert#1\rvert}
+\providecommand{\norm}[1]{\lVert#1\rVert}
+\providecommand{\Blue}[1]{\textcolor{blue}{#1}}
+\providecommand{\Red}[1]{\textcolor{red}{#1}}
+\newcommand{\celsius}{\ensuremath{^\circ}C}
+\newcommand\thfore{\mathord{\therefore}\,}
+%------------------------------------------------------------------
+
+
+\title{Lecture 13. Logical Consistency: System Specifications}
+%\author{BKIMO2003}
+%\author{ \includegraphics[width=.4\textwidth,height=.5\textheight]{lecture3-fig0.png} }
+%\titlegraphic{\includegraphics[width=.4\textwidth,height=.5\textheight]{lecture3-fig0.png}} 
+\date{ }
+
+\begin{document}
+
+\frame[plain]{\titlepage}
+
+ 
+
+\begin{frame}[plain]{System Specifications}
+
+ A list of statements is \Blue{consistent} if it is
+    possible to assign \emph{truth values}~\footnote{either of T or F} 
+    to the proposition  variables
+     so that each statement in the list is true.
+      %\pause 
+\medskip 
+
+{\bf Example 13.1} Consider the following list of three statements. Is the list consistent?
+   \begin{enumerate}
+    \item ``The diagnostic message is stored in the buffer or it is retransmitted.''
+    \item ``The diagnostic message is not stored in the buffer.''
+    \item ``If the diagnostic message is stored in the buffer, then it is retransmitted.''
+   \end{enumerate}
+   \pause 
+   
+   \begin{itemize}
+     \item {\bf p}: The diagnostic message is stored in the buffer.
+     \item {\bf q}: The diagnostic message is retransmitted.
+     \item Propositional logic: (1) = \Blue{$p\vee q$}; (2) = \Blue{$\neg p$};
+         (3) = \Blue{$p\rightarrow q$}. \pause 
+     \item When $p$ is false and $q$ is true {\bf all three statements are true}. 
+        So the list  is {\bf consistent}.
+   \end{itemize}
+
+
+\end{frame}
+
+\begin{frame}[plain]{}
+
+ {\bf Practice 13.2.} Determine whether the following system specification is consistent.
+   \begin{enumerate}
+    \item ``The diagnostic message is stored in the buffer or it is retransmitted.''
+    \item ``The diagnostic message is not stored in the buffer.''
+    \item ``If the diagnostic message is stored in the buffer, then it is retransmitted.''
+    \item ``The diagnostic message is not retransmitted.''
+   \end{enumerate}
+
+%{\bf Solution}  
+%   \begin{itemize}
+%     \item {\bf p}: The diagnostic message is stored in the buffer.
+%     \item {\bf q}: The diagnostic message is retransmitted.
+%     \item Propositional logic: (1) = \Blue{$p\vee q$}; (2) = \Blue{$\neg p$};
+%         (3) = \Blue{$p\rightarrow q$}; (4) = \Blue{$\neg q$}.
+%     \item Here we need to assign false to p and q in order to make the 2nd 
+%       and the 4th proposition true, but this means that the 1st proposition will be false.
+%       There is no assignment to p and q which will make all four propositions
+%       true.
+%   \end{itemize}
+ 
+ \pause
+ 
+ \vspace{.2in}
+ 
+ \Blue{Consistent system specifications} do \Red{not} contain conflicting
+requirements that could be used to derive a \Red{contradiction}.
+\smallskip
+
+When specifications are not consistent, there is no way to
+develop a system that satisfies all the specifications
+\medskip
+
+ \vspace{0.7in}
+ 
+\end{frame}
+
+\begin{frame}[plain]{}
+
+{\bf MSC Activity 13.3} An AI ethics committee provides these specifications for a chatbot’s behavior. Is the set consistent?
+If the set is not consistent, analyze whether there’s a way to satisfy all statements without conflict.
+
+ \begin{enumerate}
+	\item The chatbot provides factual answers, or it flags uncertain responses.
+	\item The chatbot does not provide factual answers.
+	\item If the chatbot flags uncertain responses, then it avoids giving opinions.
+	\item The chatbot gives opinions.
+\end{enumerate}
+\vspace{1in}
+
+\end{frame}
+
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{frame}[plain]{Exercise}
+
+ \begin{enumerate}
+   \item Determine whether the following system specification is consistent.
+     \begin{itemize}
+       \item The system is in multiuser state if and only if it is operating normally.
+       \item If the system is operating normally, the kernel is functioning.
+       \item The kernel is not functioning or the system is in interrupt mode.
+       \item If the system is not in multiuser state, then it is in interrupt mode.
+       \item The system is not in interrupt mode.
+     \end{itemize}
+   \item Are these system specifications consistent?
+   ``If the file
+system is not locked, then new messages will be queued.
+If the file system is not locked, then the system is functioning normally, and conversely. 
+If new messages are not
+queued, then they will be sent to the message buﬀer. If the
+file system is not locked, then new messages will be sent
+to the message buﬀer. New messages will not be sent to
+the message buﬀer."
+  \end{enumerate}
+  
+\end{frame}
+
+\end{document}
+
