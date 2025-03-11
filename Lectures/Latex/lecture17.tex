@@ -334,7 +334,54 @@ The quantifiers \Blue{$\forall$} and \Blue{$\exists$} have higher precedence tha
  
 \end{frame}
 
+\begin{frame}[plain]{Negating Quantified Expressions}
+  %Source: https://calcworkshop.com/logic/predicate-logic/
+  
+ \begin{center}
+   \includegraphics[height=1cm]{lecture17-fig1.png}
+ \end{center}
 
+Using the five circles, as seen above, we make the following statement:
+
+\begin{center}
+“Some circles are shaded.”
+\end{center}
+ 
+What would the negation of this statement be? \pause
+
+ \begin{center}
+“Some circles are not shaded.”
+\end{center}
+ 
+Nope! Because this statement is also true! 
+Remember, a negation must have the opposite truth value.\pause
+\medskip
+
+The trick is to change from a universal quantifier to an existential quantifier 
+or vice versa, adding a “not” to say, 
+\begin{center}
+“All circles are not shaded.”
+\end{center}
+ 
+\end{frame}
+
+\begin{frame}[plain]{}
+
+Therefore, the negation of quantification has the following properties:
+
+ \begin{center}
+   \includegraphics[height=5.7cm]{lecture17-fig2.png}
+ \end{center}
+ 
+ {\bf Example 17.8.} Express the statement in predicate logic and find its negation.
+      \begin{center}
+         ``\Blue{There does not exist anyone who likes skiing over magma.}''   
+      \end{center}
+     %MIT 2010 note ``Mathematics for Computer Science'', p19, Eq. (1.5)
+
+\end{frame}
+
+\iffalse%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[plain]{Negating Quantified Expressions}
   
   \begin{itemize}
@@ -391,10 +438,11 @@ has not studied Java}.''
  %    the truth values of $Q(-1, 5), Q(4, 3),$ and $Q(-3, -7)$. 
  
 \end{frame}
+\fi%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
  \begin{frame}[plain]{}
  
- {\bf Practice 17.10}. 
+ {\bf Practice 17.9}. 
   Let the domain be all faces of the following truncated {\bf icosahedron}.~\footnote{ 
     A solid figure having 20 faces. }
   \begin{columns}[c]
