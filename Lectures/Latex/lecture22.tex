@@ -1,0 +1,203 @@
+\documentclass[aspectratio=169]{beamer}
+\mode<presentation>
+%\usetheme{Warsaw}
+%\usetheme{Goettingen}
+\usetheme{Hannover}
+%\useoutertheme{default}
+
+%\useoutertheme{infolines}
+\useoutertheme{sidebar}
+\usecolortheme{dolphin}
+
+
+\setbeamersize{sidebar width left=0pt} % to remove the sidebar
+\beamertemplatenavigationsymbolsempty % To remove the navigation symbols on the bottom right.
+\setbeamersize{text margin left=10mm,text margin right=10mm} % Specify margins
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{listings}
+\usepackage{enumerate}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+}
+ 
+\urlstyle{same}
+
+%some bold math symbosl
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\brho}{\boldsymbol{\rho}}
+\newcommand{\bSigma}{\boldsymbol{\Sigma}}
+\newcommand{\btheta}{\boldsymbol{\theta}}
+\newcommand{\bbeta}{\boldsymbol{\beta}}
+\newcommand{\bmu}{\boldsymbol{\mu}}
+\newcommand{\bW}{\mathbf{W}}
+\newcommand{\one}{\mathbf{1}}
+\newcommand{\bH}{\mathbf{H}}
+\newcommand{\by}{\mathbf{y}}
+\newcommand{\bolde}{\mathbf{e}}
+\newcommand{\bx}{\mathbf{x}}
+
+\newcommand{\cpp}[1]{\texttt{#1}}
+
+%--------------------------------------------------
+\providecommand{\abs}[1]{\lvert#1\rvert}
+\providecommand{\norm}[1]{\lVert#1\rVert}
+\providecommand{\Blue}[1]{\textcolor{blue}{#1}}
+\providecommand{\Red}[1]{\textcolor{red}{#1}}
+\newcommand{\celsius}{\ensuremath{^\circ}C}
+\newcommand\thfore{\mathord{\therefore}\,}
+%------------------------------------------------------------------
+
+\title{Lecture 22. Linear Homogeneous Recurrence Relations}
+%\author{\includegraphics[width=.5\textwidth,height=.5\textheight]{lecture4-fig0.png}}
+
+\date{ }
+%------------------------------------------------------------------
+
+
+\begin{document}
+
+\frame[plain]{\titlepage}
+
+
+
+\begin{frame}[plain]{}
+
+ {\bf  Definition 22.1}. A \Blue{linear homogeneous recurrence relation
+   of degree $k$ with constant coefficients} is a recurrence relation of the form 
+   \[ \Blue{a_n = r_1a_{n-1} + r_{2}a_{n-2}+\cdots + r_ka_{n-k} } 
+   \]
+   where $r_1, r_2, ..., r_k$ are real numbers and $r_k\neq 0$ with $k<n$. 
+   This recurrence includes $k$ initial conditions, 
+   $a_0 = \alpha_0, a_1 = \alpha_1,..., a_k = \alpha_k$. \pause
+   \begin{itemize}
+     \item {\bf Linear}: Each term $a_j$ in the relation appears with an exponent of 1.\pause
+     \item {\bf Homogeneous}: The relation contains no additional terms that directly 
+     depend on $n$  (i.e., no external or independent functions of $n$). \pause
+     \item {\bf Degree $k$}: Each term $a_n$ is defined by the previous $k$ terms in the sequence. \pause
+   \end{itemize}
+ 
+ {\bf Example 22.2}. Linear and/or Homogeneous?
+ {\small
+  \[ (a)\ M_n = (1.1)M_{n-1}\ \ (b)\ F_n = F_{n-1} + F_{n-2} \ \ 
+     (c)\ a_n = a_{n-1}+a_{n-2}^2\ \ 
+      (d)\ h_n = 2h_{n-1}+1\ \  
+    % (e)\ b_n = n\,b_{n-1}
+  \] 
+  
+  \pause
+  
+  (a) linear homogeneous recurrence relation of degree 1,\
+  (b) linear homogeneous recurrence relation of degree 2,\
+  (c) not linear,\
+  (d) not homogeneous,\
+  %(e) coefficients are not constants.
+  }
+  
+\end{frame}
+
+\begin{frame}[plain]{}
+
+\begin{itemize}
+  \item The basic approach is to look for solutions of the form
+       \Blue{$a_n = x^n$}, where $x$ is a constant. \pause
+  \item  $a_n = x^n$ is a solution to the recurrence relation
+      \[ \Blue{a_n = r_1a_{n-1} + r_{2}a_{n-2}+\cdots + r_ka_{n-k} } 
+   \]
+   if and only if \pause
+    \[ \Blue{x^n = r_1x^{n-1} + r_{2}x^{n-2}+\cdots + r_kx^{n-k} } 
+   \]
+   \pause
+  \item Rearranging terms leads to the \Blue{characteristic equation}:
+    \[ \Blue{x^n - r_1x^{n-1} - r_{2}x^{n-2} - \cdots - r_kx^{n-k} = 0. } 
+   \]
+\end{itemize}
+\end{frame}
+
+\begin{frame}[plain]{}
+
+ The \Blue{characteristic equation}:
+    \[ \Blue{x^n - r_1x^{n-1} - r_{2}x^{n-2} - \cdots - r_kx^{n-k} = 0. } 
+   \]
+ 
+  {\bf Theorem 22.3}. The characteristic equation of
+  the recurrence relation \Blue{$a_n = r_1a_{n-1}+r_2a_{n-2}$} is
+     \[ \Blue{x^2 - r_1x - r_{2} = 0}.
+     \]
+     If the characteristic equation has 
+     two distinct roots, $x_1$ and $x_2$, then 
+     \[ \Blue{a_n = px_1^n + qx_2^n \ \ \mbox{for\ some}\ p, q}
+     \]
+     is the explicit formula
+     for the sequence. Here, $p$ and $q$ depend on the initial conditions.
+     \medskip
+   
+  {\bf Example 22.4}. Find an explicit formula for the sequence defined by 
+    $a_n = 7a_{n-1} - 10a_{n-2}$ with $a_0=2$ and $a_1=3$.\pause
+    \medskip
+    
+    {\bf Answer}: $a_n = \frac{7}{3}2^n - \frac{1}{3}5^n$.
+%    \vspace{.3in}
+
+\end{frame}
+
+
+\begin{frame}[plain]{}
+
+ {\bf Theorem 22.5}. If the characteristic equation 
+     \[ \Blue{x^2 - r_1x - r_{2} = 0 }
+     \]
+     of the recurrence relation $a_n = r_1a_{n-1}+r_2a_{n-2}$ has 
+     two distinct roots, $x_1$ and $x_2$, then 
+     \[ \Blue{a_n = px_1^n + qx_2^n} 
+     \]
+     where $p$ and $q$ depend on the initial conditions, is the explicit formula
+     for the sequence.
+     \medskip
+     
+ {\bf Practice 22.6}. (Fibonacci Sequence) Solve the recurreence relation
+    $f_n = f_{n-1}+f_{n-2}$ with the initial conditions $f_0=0$ and $f_1=1$. \pause
+    \medskip
+    
+    {\bf Answer}: $f_n = \frac{\phi^n - (1-\phi)^n}{\sqrt{5}}$, where $\phi = \frac{1+\sqrt{5}}{2}$.
+        (Note that $\phi\approx 1.618\ 033\ 988\ 749...$ is a golden ratio.)
+    
+    \vspace{.4in}
+         
+\end{frame}
+
+\begin{frame}[plain]{}
+
+ {\bf Theorem 22.7}. If the characteristic equation 
+     \[ \Blue{x^2 - r_1x - r_{2} = 0 }
+     \]
+     of the recurrence relation $a_n = r_1a_{n-1}+r_2a_{n-2}$ has 
+     a single root, $x$, then 
+     \[ \Blue{a_n = px_1^n + q\Red{n}x_2^n} 
+     \]
+     where $p$ and $q$ depend on the initial conditions, is the explicit formula
+     for the sequence.
+     \medskip
+     
+ {\bf Practice 22.8}.  Solve the recurrence relation
+    $b_n = 6b_{n-1}-9b_{n-2}$ with the initial conditions $b_0=1$ and $b_1=4$. \pause
+    \medskip
+    
+    {\bf Answer}: $b_n = 3^n + \frac{1}{3}n3^n$
+    \medskip
+    
+    Although we will not consider examples more complicated than
+these, this characteristic root technique can be applied to much more
+complicated recurrence relations. 
+    
+    \vspace{.2in}
+         
+\end{frame}
+
+\end{document}

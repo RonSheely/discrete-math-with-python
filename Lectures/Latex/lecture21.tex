@@ -1,0 +1,204 @@
+\documentclass[aspectratio=169]{beamer}
+\mode<presentation>
+%\usetheme{Warsaw}
+%\usetheme{Goettingen}
+\usetheme{Hannover}
+%\useoutertheme{default}
+
+%\useoutertheme{infolines}
+\useoutertheme{sidebar}
+\usecolortheme{dolphin}
+
+
+\setbeamersize{sidebar width left=0pt} % to remove the sidebar
+\beamertemplatenavigationsymbolsempty % To remove the navigation symbols on the bottom right.
+\setbeamersize{text margin left=10mm,text margin right=10mm} % Specify margins
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{listings}
+\usepackage{enumerate}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+}
+ 
+\urlstyle{same}
+
+%some bold math symbosl
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\brho}{\boldsymbol{\rho}}
+\newcommand{\bSigma}{\boldsymbol{\Sigma}}
+\newcommand{\btheta}{\boldsymbol{\theta}}
+\newcommand{\bbeta}{\boldsymbol{\beta}}
+\newcommand{\bmu}{\boldsymbol{\mu}}
+\newcommand{\bW}{\mathbf{W}}
+\newcommand{\one}{\mathbf{1}}
+\newcommand{\bH}{\mathbf{H}}
+\newcommand{\by}{\mathbf{y}}
+\newcommand{\bolde}{\mathbf{e}}
+\newcommand{\bx}{\mathbf{x}}
+
+\newcommand{\cpp}[1]{\texttt{#1}}
+
+%--------------------------------------------------
+\providecommand{\abs}[1]{\lvert#1\rvert}
+\providecommand{\norm}[1]{\lVert#1\rVert}
+\providecommand{\Blue}[1]{\textcolor{blue}{#1}}
+\providecommand{\Red}[1]{\textcolor{red}{#1}}
+\newcommand{\celsius}{\ensuremath{^\circ}C}
+\newcommand\thfore{\mathord{\therefore}\,}
+%------------------------------------------------------------------
+
+\title{Lecture 21. Solving Recurrence Relations }
+%\author{\includegraphics[width=.5\textwidth,height=.5\textheight]{lecture4-fig0.png}}
+
+\date{ }
+%------------------------------------------------------------------
+
+
+\begin{document}
+
+\frame[plain]{\titlepage}
+
+\begin{frame}[plain]{Recursive Thinking}
+
+In the previous lecture note, we have seen some examples 
+how to think recursively about a problem by describing it
+with a recurrence relation.
+ Remember that any recurrence relation has two parts: a {\bf base case}
+that describes some initial conditions, and a {\bf recursive case}
+ that describes a {\bf future value in
+terms of previous values}. 
+Armed with this way of thinking, we can model other problems using
+recurrence relations.
+\medskip
+\pause
+
+{\bf Example 20.1}. Ahmed lends money at outrageous rates of interest. 
+He demands to be paid
+     10\% interest \emph{per week} on a loan, compounded weekly.
+     Suppose you borrow 500 Dhs from him.
+      Let $M(n)$ = the money you owed at $n$-th week.
+     \begin{itemize}
+       \item[(a)]  Find the recurrence relation for $M(n)$. 
+       \item[(b)] If you wait four weeks to pay him back, how much will you owe?
+     \end{itemize}
+%Essential, p176, Example 3.3
+\pause
+
+\smallskip
+
+{\bf Answer:} 
+\[ M(n) = \left\{ \begin{array}{ccc}
+                       500 &\mbox{if}& n = 0\\
+                       1.1\,M(n-1) &\mbox{if}& n>0
+                      \end{array} \right. 
+              \ M(4) = \$ 732.05
+    \]
+
+\end{frame}
+
+\begin{frame}[plain]{}
+
+  {\bf Practice 20.2}. Find a closed-form solution 
+  for the recurrence relation from
+  \[ M(n) = \left\{ \begin{array}{ccc}
+                       500 &\mbox{if}& n = 0\\
+                       1.1\,M(n-1) &\mbox{if}& n>0
+                      \end{array} \right. 
+    \]
+    
+    \pause
+    
+ {\bf Answer:} $M(n) = 500 (1.1)^n$ %Using the backtracking method
+ 
+ \vspace{1in}
+ 
+\end{frame}
+
+
+\begin{frame}[plain]{Polynomial sequences: Using differences}
+
+ Finding a closed-form solution for $P(n)$ can be thought of as guessing a formula
+    for the sequence $P(0)$, $P(1)$, $P(2)$, ....  \pause
+    \medskip
+    
+ {\bf One Idea}.  If we knew that  
+     \[ P(n) = \ \mbox{a polynomial function of }\ n
+       % = a_m n^m + a_{m-1}n^{m-1},\cdots + a_1n + a_0 
+      \]
+     then we can detect such a sequence by looking at the differences 
+     between terms.
+\pause
+
+ Given any sequence,
+     \[ a_0, a_1, a_2, ..., a_{n-1}, a_n \]
+  the differences 
+   \[ a_1-a_0, a_2-a_1, a_3-a_2, ..., a_n-a_{n-1} \]
+   form another sequence, called the \Blue{sequence of differences}.
+ 
+
+\end{frame}
+
+\begin{frame}[plain]{}
+
+  Given any sequence,
+  \[ a_0, a_1, a_2, ..., a_{n-1}, a_n \]
+  the differences 
+  \[ a_1-a_0, a_2-a_1, a_3-a_2, ..., a_n-a_{n-1} \]
+  form another sequence, called the \Blue{sequence of differences}.
+
+ \begin{itemize}
+  \item A linear sequence \Blue{$a_n = An+B$} will have a constant sequence of differences (because a line has constant slop).
+      \item A quadratic sequence \Blue{$a_n = An^2+Bn+C$} will have a linear sequence of differences.
+      \item a cubic sequence \Blue{$a_n = An^3+Bn^2+Cn+D$}  will have a quadratic sequence of differences, etc.
+      \item If we eventually end up with a constant sequence, then the original sequence
+    is given by a polynomial function. 
+      \item The degree of the conjectured polynomial
+       is the number of times we had to calculate the 
+    sequence of differences.
+ \end{itemize}
+
+\end{frame}
+
+\begin{frame}[plain]{}
+
+{\bf Example 20.3}. Find a closed-form solution $f(n)$ for the recurrence relation 
+    \[ H(n) = \left\{ \begin{array}{ccc}
+                       1 &\mbox{if}& n = 1\\
+                       H(n-1)+6n-6 &\mbox{if}& n>1
+                      \end{array} \right. 
+    \]
+    %Essential, p187,  Example 3.9
+  \medskip
+  
+  \pause
+  
+  {\bf Answer}. $H(n) = 3n^2-3n+1$ is a \Red{good candidate}
+   for a closed-form solution.
+   
+   \medskip
+   
+  {\bf Remark}. The result of these procedures is still only a guess.
+   To be sure that our guess is right, we need to prove that the formula 
+   matches the recurrence relation \Red{for all $n$}. \pause
+\medskip
+
+{\bf Practice 20.4}. Solve the recurrence relation $a_n = a_{n-1}+n$
+  with initial term $a_0=4$. \pause
+  
+  \medskip
+  
+  {\bf Answer}. $a_n = \frac{n(n+1)}{2}+4$ for $n\geq 0$.
+  
+ \vspace{1in}
+
+\end{frame}
+
+
+\end{document}
