@@ -1,0 +1,76 @@
+\documentclass{article}
+\usepackage{amsmath}
+\begin{document}
+
+\section*{Solution}
+
+\subsection*{Part (a): Evaluate $\mathrm{binarySearchRecursive}(X, 55)$}
+
+Given the sorted array $X = \{2, 3, 5, 8, 13, 21, 34, 55, 70\}$, we need to evaluate $\mathrm{binarySearchRecursive}(X, 55)$.
+Let ``binarySearchRecursive = {\bf BSR}". 
+\begin{itemize}
+    \item Initial call: $BMR(X, 55)$.
+    \item Length of $X$ is 9, so $\text{midpoint} = \lfloor 9/2 \rfloor = 4$: 
+    \item $X[4] = 13$. Since $55 > 13$, recurse on the right half: $BMR(X[5:], 55)$, where  $X[5:] = \{21, 34, 55, 70\}$.
+    \item Length of subarray is 4, so $\text{midpoint} = \lfloor 4/2 \rfloor = 2$.
+    \item $X[2]$ in this subarray is $55$ (index 7 in original array). Since $55 = 55$, return $\text{True}$.
+\end{itemize}
+
+Thus, $\mathrm{BMR}(X, 55)$ returns $\boxed{\text{True}}$.
+
+\subsection*{Part (b): Recurrence Relation for Number of Comparisons}
+
+Let’s define $C(n)$ as the number of comparisons made by the $\mathrm{binarySearchRecursive}$ algorithm on a sorted array of size $n$.
+
+\begin{itemize}
+    \item \textbf{Base case}: If the array is empty ($n = 0$), the algorithm performs 1 comparison ($\text{len(alist)} == 0$) and returns $\text{False}$. So, $C(0) = 1$.
+    \item \textbf{Recursive case}: For $n > 0$, the algorithm:
+        \begin{itemize}
+            \item Performs 1 comparison to check $\text{len(alist)} == 0$.
+            \item Computes the midpoint and performs 1 comparison to check if $\text{item} == \text{alist[midpoint]}$.
+            \item If the item is not at the midpoint, performs 1 more comparison to decide which half to recurse on ($\text{item} < \text{alist[midpoint]}$).
+            \item Recurses on a subarray of size approximately $n/2$.
+        \end{itemize}
+    Thus, in the recursive case, there are 3 comparisons plus the comparisons made in the recursive call.
+\end{itemize}
+
+The recurrence relation for the number of comparisons is:
+\[
+C(n) = 
+\begin{cases} 
+1 & \text{if } n = 0 \\
+3 + C(\lfloor n/2 \rfloor) & \text{if } n > 0 
+\end{cases}
+\]
+
+\[
+\boxed{C(n) = 
+\begin{cases} 
+1 & \text{if } n = 0 \\
+3 + C(\lfloor n/2 \rfloor) & \text{if } n > 0 
+\end{cases}}
+\]
+
+\subsection*{Part (c): Algorithm Complexity}
+
+Assume $n>0$ and  let $n = 2^p$ for some $p\geq 0$. Then, we can rewrite the recurrence relation in (b) as:
+\[
+\tilde{C}(p) = 
+\begin{cases} 
+4 & \text{if } p = 0 \\
+3 + \tilde{C}(p-1)  & \text{if } p > 0 
+\end{cases}
+\]
+since $n/2 = 2^p/2 = 2^{p-1}$. Thus, for any $p>0$,
+\[
+\begin{cases}
+  \tilde{C}(p) & = 3 + \tilde{C}(p-1) = 3 + [ 3+\tilde{C}(p-2) ] = [3+3]+\tilde{C}(p-2)\\
+      & = [3+3+3]+\tilde{C}(p-3) = \cdots = 3p+\tilde{C}(0) = 3p+4
+ \end{cases}
+ \]
+ So, a list of $2^p$ entries requires approximately $3p+4$ comparisons
+   in the worst case. Substituting $p=\log_2(n)$ gives 
+   \[ C(n) \approx 3\log_2(n)+4 \in \Theta(\log_2(n)) \equiv \Theta(\log (n)) 
+   \]
+
+\end{document}
